@@ -1,0 +1,9 @@
+#--index-url https://pypi.python.org/simple/
+# The line below picks up depencies described in setup.py install_requires. Replace as necessary
+# -e .
+--pre
+pyfrc
+wpilib
+robotpy-commands-v1
+robotpy-rev-color
+robotpy-cscore
