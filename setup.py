@@ -38,7 +38,7 @@ setup(
     install_requires=[
         'pyfrc',
         'robotpy-commands-v1',
-        'robotpy-rev-color'
+        #'robotpy-rev-color' # TODO: cleanup from code
     ],  # Optional
     extras_require={  # Optional
         'test': ['black', 'pipenv', 'tox', 'tox-pipenv', 'coverage'],

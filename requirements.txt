@@ -5,5 +5,5 @@
 pyfrc
 wpilib
 robotpy-commands-v1
-robotpy-rev-color
+# TODO: cleanup from code --> robotpy-rev-color 
 robotpy-cscore

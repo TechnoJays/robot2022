@@ -26,6 +26,13 @@ of python required by pyfrc changes.
 
 IDEs like [Pycharm also support pipenv].
 
+It is very important that you have updated pip to the latest version. You can do so with the command below:
+
+```bash
+# update `pip` and `setuptools` to the latest versions available
+pip3 install -U pip setuptools
+```
+
 Note: If you are confident that your system version of python is exactly python 3.8, then you can simply use:
 
 ```bash
