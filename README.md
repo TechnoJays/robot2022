@@ -89,15 +89,17 @@ python robot.py deploy
    ```
 
 `tox` is running `python src/robot.py coverage test` from [RobotPy Unit Testing]
-[FIRST Robotics FRC]:(<http://www.usfirst.org/>)
-[pyfrc]:(<https://github.com/robotpy/pyfrc>)
-[pyfrc instructions]:(<http://pyfrc.readthedocs.org/en/latest/>)
-[black]:(<https://github.com/ambv/black>)
-[RobotPy Unit Testing]:(<https://robotpy.readthedocs.io/en/stable/guide/testing.html>)
-[pyenv]:(<https://github.com/pyenv/pyenv>)
-[pipenv]:(<https://github.com/pypa/pipenv>)
-[Homebrew]:(<https://brew.sh/>)
-[Scoop]:(<https://scoop.sh/>)
-[this page]:(<https://github.com/lukesampson/scoop/wiki/Switching-Ruby-and-Python-Versions>)
-[robot code deployment instructions and automation]:(<https://robotpy.readthedocs.io/en/stable/guide/deploy.html>)
-[Pycharm also support pipenv]:(<https://www.jetbrains.com/help/pycharm/pipenv.html>)
+
+
+[FIRST Robotics FRC]: http://www.usfirst.org/
+[pyfrc]: https://github.com/robotpy/pyfrc
+[pyfrc instructions]: http://pyfrc.readthedocs.org/en/latest/
+[black]: https://github.com/ambv/black 
+[RobotPy Unit Testing]: https://robotpy.readthedocs.io/en/stable/guide/testing.html
+[pyenv]: https://github.com/pyenv/pyenv 
+[pipenv]: https://github.com/pypa/pipenv
+[Homebrew]: https://brew.sh/
+[Scoop]: https://scoop.sh/
+[this page]: https://github.com/lukesampson/scoop/wiki/Switching-Ruby-and-Python-Versions
+[robot code deployment instructions and automation]: https://robotpy.readthedocs.io/en/stable/guide/deploy.html
+[Pycharm also support pipenv]: https://www.jetbrains.com/help/pycharm/pipenv.html
