@@ -41,8 +41,6 @@ class MyRobot(wpilib.IterativeRobot):
         self.oi = OI(self)
         self.drivetrain = Drivetrain(self)
         self.climbing = Climbing(self)
-        self.vacuum = Vacuum(self)
-        self.shooter = Shooter(self)
         self.oi.setup_button_bindings()
         wpilib.CameraServer.launch()
 
