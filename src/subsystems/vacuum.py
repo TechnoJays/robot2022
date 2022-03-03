@@ -2,7 +2,7 @@ import configparser
 
 from wpilib import PWMVictorSPX
 from wpilib import SmartDashboard
-from wpilib.command import Subsystem
+from commands1 import Subsystem
 
 from commands.do_nothing_vacuum import DoNothingVacuum
 

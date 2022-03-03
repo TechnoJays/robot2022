@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 
-from wpilib.command import CommandGroup
-from wpilib.command import WaitCommand
+from commands1 import CommandGroup
+from commands1 import WaitCommand
 
 from commands.drive_time import DriveTime
 from commands.raise_shooter import RaiseShooter

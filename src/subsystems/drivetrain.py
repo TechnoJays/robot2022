@@ -1,7 +1,7 @@
 import configparser
 from typing import Optional
 
-from wpilib.command import Subsystem
+from commands1 import Subsystem
 from wpilib.drive import DifferentialDrive
 from wpilib import PWMVictorSPX
 from wpilib import ADXRS450_Gyro

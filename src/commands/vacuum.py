@@ -1,4 +1,4 @@
-from wpilib.command import Command
+from commands1 import Command
 
 
 class Vacuum(Command):

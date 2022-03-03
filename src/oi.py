@@ -6,8 +6,8 @@ from wpilib import DriverStation
 from wpilib import Joystick
 from wpilib import SendableChooser
 from wpilib import SmartDashboard
-from wpilib.command import CommandGroup
-from wpilib.command import JoystickButton
+from commands1 import CommandGroup
+from commands1.buttons import JoystickButton
 
 from commands.autonomous import DeadReckoningScore, MoveFromLine
 from commands.raise_shooter import RaiseShooter
