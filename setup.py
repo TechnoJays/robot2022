@@ -37,10 +37,11 @@ setup(
     packages=find_packages(exclude=["tests/*"]),  # Required
     install_requires=[
         'pyfrc',
-        'robotpy-commands-v1',
-        #'robotpy-rev-color' # TODO: cleanup from code
+        'robotpy[commands]',
+         # TODO: cleanup from code
+        'robotpy[rev]'
     ],  # Optional
     extras_require={  # Optional
-        'test': ['black', 'pipenv', 'tox', 'tox-pipenv', 'coverage'],
+        'test': ['black', 'pipenv', 'tox', 'tox-pipenv', 'coverage', 'robotpy[ctre]'],
     }
 )
