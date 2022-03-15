@@ -1,3 +1,4 @@
+import commands1
 import wpilib
 from wpilib import SmartDashboard
 
@@ -44,13 +45,13 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-        # command.Scheduler.getInstance().run()
+        commands1.Scheduler.getInstance().run()
         pass
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
         SmartDashboard.putString("Color Target", str(self.oi.get_game_message()))
-        # command.Scheduler.getInstance().run()
+        commands1.Scheduler.getInstance().run()
 
     def testPeriodic(self):
         """This function is called periodically during test mode."""
