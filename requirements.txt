@@ -2,7 +2,6 @@
 # The line below picks up depencies described in setup.py install_requires. Replace as necessary
 # -e .
 --pre
-pyfrc
 wpilib
 robotpy[commands]
 # TODO: cleanup from code --> robotpy-rev-color 

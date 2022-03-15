@@ -1,6 +1,5 @@
 import wpilib
 from wpilib import SmartDashboard
-from wpilib import command
 
 from oi import OI
 from subsystems.climbing import Climbing
@@ -9,7 +8,7 @@ from subsystems.shooter import Shooter
 from subsystems.vacuum import Vacuum
 
 
-class MyRobot(wpilib.IterativeRobot):
+class MyRobot(wpilib.TimedRobot):
     oi = None
     drivetrain = None
     climbing = None
@@ -41,17 +40,17 @@ class MyRobot(wpilib.IterativeRobot):
         self.oi = OI(self)
         self.drivetrain = Drivetrain(self)
         self.climbing = Climbing(self)
-        self.oi.setup_button_bindings()
-        wpilib.CameraServer.launch()
+        # self.oi.setup_button_bindings()
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-        command.Scheduler.getInstance().run()
+        # command.Scheduler.getInstance().run()
+        pass
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
         SmartDashboard.putString("Color Target", str(self.oi.get_game_message()))
-        command.Scheduler.getInstance().run()
+        # command.Scheduler.getInstance().run()
 
     def testPeriodic(self):
         """This function is called periodically during test mode."""

@@ -87,8 +87,6 @@ class OI:
             self._controllers.append(self._init_joystick(i))
             self._dead_zones.append(self._init_dead_zone(i))
 
-        self._create_smartdashboard_buttons()
-
     def _init_joystick(self, driver: int) -> Joystick:
         config_section = OI.JOY_CONFIG_SECTION + str(driver)
         return Joystick(self._config.getint(config_section, OI.PORT_KEY))
@@ -123,13 +121,14 @@ class OI:
 
     def setup_button_bindings(self):
         # Spaceballs!
-        suck_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER)
-        suck_button.whileHeld(Vacuum(self.robot, 1.0))
-        blow_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
-        blow_button.whileHeld(Vacuum(self.robot, -1.0))
+        # suck_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER)
+        # suck_button.whileHeld(Vacuum(self.robot, 1.0))
+        # blow_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
+        # blow_button.whileHeld(Vacuum(self.robot, -1.0))
         # Shooting
-        shoot_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.A)
-        shoot_button.whileHeld(RaiseShooter(self.robot))
+        # shoot_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.A)
+        # shoot_button.whileHeld(RaiseShooter(self.robot))
+        return
 
     def get_auto_choice(self) -> CommandGroup:
         return self._auto_program_chooser.getSelected()
