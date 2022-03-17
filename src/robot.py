@@ -41,7 +41,8 @@ class MyRobot(wpilib.TimedRobot):
         self.oi = OI(self)
         self.drivetrain = Drivetrain(self)
         self.climbing = Climbing(self)
-        # self.oi.setup_button_bindings()
+        self.shooter = Shooter(self)
+        self.oi.setup_button_bindings()
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""

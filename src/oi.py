@@ -10,6 +10,7 @@ from commands1 import CommandGroup
 from commands1.buttons import JoystickButton
 
 from commands.autonomous import DeadReckoningScore, MoveFromLine
+from commands.lower_shooter import LowerShooter
 from commands.raise_shooter import RaiseShooter
 from commands.vacuum import Vacuum
 
@@ -120,11 +121,10 @@ class OI:
         SmartDashboard.putData("Autonomous", self._auto_program_chooser)
 
     def setup_button_bindings(self):
-        # Spaceballs!
-        # suck_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER)
-        # suck_button.whileHeld(Vacuum(self.robot, 1.0))
-        # blow_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
-        # blow_button.whileHeld(Vacuum(self.robot, -1.0))
+        pop_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER)
+        pop_button.whenPressed(RaiseShooter(self.robot))
+        drop_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
+        drop_button.whenPressed(LowerShooter(self.robot))
         # Shooting
         # shoot_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.A)
         # shoot_button.whileHeld(RaiseShooter(self.robot))
