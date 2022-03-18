@@ -116,8 +116,8 @@ class OI:
 
     def _create_smartdashboard_buttons(self):
         self._auto_program_chooser = SendableChooser()
-        self._auto_program_chooser.setDefaultOption("Score Low", DeadReckoningScore(self.robot))
-        self._auto_program_chooser.addOption("Move From Line", MoveFromLine(self.robot))
+        self._auto_program_chooser.setDefaultOption("Move From Line", MoveFromLine(self.robot))
+        self._auto_program_chooser.addOption("Score Low", DeadReckoningScore(self.robot))
         SmartDashboard.putData("Autonomous", self._auto_program_chooser)
 
     def setup_button_bindings(self):
