@@ -125,9 +125,6 @@ class OI:
         pop_button.whenPressed(RaiseShooter(self.robot))
         drop_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
         drop_button.whenPressed(LowerShooter(self.robot))
-        # Shooting
-        # shoot_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.A)
-        # shoot_button.whileHeld(RaiseShooter(self.robot))
         return
 
     def get_auto_choice(self) -> CommandGroup:
