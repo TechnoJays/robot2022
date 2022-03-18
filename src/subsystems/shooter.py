@@ -31,7 +31,7 @@ class Shooter(Subsystem):
     def _init_components(self):
         if self._enabled:
             self._solenoid_inverted = self._config.getboolean(Shooter.GENERAL_SECTION, Shooter.SOLENOID_INVERTED_KEY)
-            self._solenoid = Solenoid(PneumaticsModuleType.REVPH, self._config.getint(Shooter.GENERAL_SECTION, Shooter.SOLENOID_CHANNEL_KEY))
+            self._solenoid = Solenoid(PneumaticsModuleType.CTREPCM, self._config.getint(Shooter.GENERAL_SECTION, Shooter.SOLENOID_CHANNEL_KEY))
 
     def initDefaultCommand(self):
         self.setDefaultCommand(LowerShooter(self._robot))
