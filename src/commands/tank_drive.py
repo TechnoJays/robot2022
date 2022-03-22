@@ -7,7 +7,21 @@ class TankDrive(Command):
     _stick_scaling: float
 
     def __init__(self, robot, name=None, modifier_scaling: float = 0.5, dpad_scaling: float = 0.4, timeout=15):
-        """Constructor"""
+        """
+        Constructor
+
+        Sets the scaling factor (`_dpad_scaling`) for "fine" control over the tank drive from the directional pad
+        Sets the scaling factor (`_stick_scaling`) for general control of the tank drive from the joysticks
+
+        Set up for "Slew Rate Limiting" based on button modifier input. If the "Slew Rate" button is compressed,
+        then the robot tank drive will not use the direct input from the joystick. Instead, it will apply a
+        maximum rate of change to the joystick input.
+
+        Caveat: The way the slew rate is applied, it will also affect deceleration of the robot. That means that
+        if the slew rate modifier button is depressed, that the robot will not immediately come to a stop when
+        the joystick is released, it will slowly decelerate (fast deceleration is one of the primary reasons for 
+        robot tipping)
+        """
         super().__init__(name, timeout)
         self.robot = robot
         self.requires(robot.drivetrain)

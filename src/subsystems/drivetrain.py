@@ -15,6 +15,8 @@ class Drivetrain(Subsystem):
     LEFT_MOTOR_SECTION = "DrivetrainLeftMotor"
     RIGHT_MOTOR_SECTION = "DrivetrainRightMotor"
     GYRO_SECTION = "DrivetrainGyro"
+
+    # Key names within each section (many of the keys are used across sections)
     ENABLED_KEY = "ENABLED"
     INVERTED_KEY = "INVERTED"
     # ARCADE_DRIVE_ROTATION_INVERTED_KEY = "ARCADE_DRIVE_ROTATION_INVERTED"
