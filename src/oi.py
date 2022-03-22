@@ -12,7 +12,6 @@ from commands1.buttons import JoystickButton
 from commands.autonomous import DeadReckoningScore, MoveFromLine
 from commands.lower_shooter import LowerShooter
 from commands.raise_shooter import RaiseShooter
-from commands.vacuum import Vacuum
 
 
 class JoystickAxis:

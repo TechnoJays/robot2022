@@ -6,7 +6,6 @@ from oi import OI
 from subsystems.climbing import Climbing
 from subsystems.drivetrain import Drivetrain
 from subsystems.shooter import Shooter
-from subsystems.vacuum import Vacuum
 
 
 class MyRobot(wpilib.TimedRobot):
