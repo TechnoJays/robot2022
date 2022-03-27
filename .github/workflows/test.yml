@@ -29,7 +29,7 @@ jobs:
       - name: install test dependencies
         shell: bash
         working-directory: .
-        run: python -m pip -r requirements.txt
+        run: python -m pip install -r requirements.txt
       - name: test
         shell: bash
         working-directory: src
