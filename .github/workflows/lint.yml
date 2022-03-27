@@ -2,7 +2,7 @@ name: robot_code_validate
 on:
   push:
     branches:
-      - "main"
+      - "master"
     pull_request: {}
 jobs:
   lint: 
