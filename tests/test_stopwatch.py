@@ -37,10 +37,7 @@ def test_reset(stopwatch_default):
     assert stopwatch_default._msecs is None
 
 
-@pytest.mark.parametrize("started", [
-    True,
-    False
-])
+@pytest.mark.parametrize("started", [True, False])
 def test_stop(stopwatch_default, started):
     if started:
         stopwatch_default.start()
@@ -56,10 +53,7 @@ def test_stop(stopwatch_default, started):
     assert stopwatch_default._running is False
 
 
-@pytest.mark.parametrize("started", [
-    True,
-    False
-])
+@pytest.mark.parametrize("started", [True, False])
 def test_elapsed_time_in_secs(stopwatch_default, started):
     if started:
         stopwatch_default.start()
@@ -79,10 +73,7 @@ def test_elapsed_time_in_secs(stopwatch_default, started):
     assert stopwatch_default._msecs is None
 
 
-@pytest.mark.parametrize("started", [
-    True,
-    False
-])
+@pytest.mark.parametrize("started", [True, False])
 def test_elapsed_time_in_msecs(stopwatch_default, started):
     if started:
         stopwatch_default.start()

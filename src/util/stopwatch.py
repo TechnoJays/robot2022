@@ -8,6 +8,7 @@ class Stopwatch(object):
     This class provides simple time keeping functionality like a stopwatch.
 
     """
+
     _running: bool = False
     _start: Optional[float] = None
     _end: Optional[float] = None

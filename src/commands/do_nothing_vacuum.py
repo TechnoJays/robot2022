@@ -1,9 +1,14 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 
 
 class DoNothingVacuum(Command):
-
-    def __init__(self, robot, name='DoNothingVacuum', timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        name: str = "DoNothingVacuum",
+        timeout: int = 15,
+    ):
         super().__init__(name, timeout)
         self.robot = robot
         self.requires(robot.vacuum)

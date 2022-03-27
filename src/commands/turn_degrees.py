@@ -1,6 +1,8 @@
 from commands1 import Command
 import math
 
+from wpilib import IterativeRobotBase
+
 
 class TurnDegrees(Command):
     _speed: float = None
@@ -8,7 +10,15 @@ class TurnDegrees(Command):
     _degrees_change: float = None
     _target_degrees: float = None
 
-    def __init__(self, robot, degrees_change: float, speed: float, threshold: float, name=None, timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        degrees_change: float,
+        speed: float,
+        threshold: float,
+        name: str = "TurnDegrees",
+        timeout: int = 15,
+    ):
         """Constructor"""
         super().__init__(name, timeout)
         self.robot = robot
@@ -19,7 +29,9 @@ class TurnDegrees(Command):
 
     def initialize(self):
         """Called before the Command is run for the first time."""
-        self._target_degrees = self.robot.drivetrain.get_gyro_angle() + self._degrees_change
+        self._target_degrees = (
+            self.robot.drivetrain.get_gyro_angle() + self._degrees_change
+        )
         return Command.initialize(self)
 
     def execute(self):
@@ -33,7 +45,10 @@ class TurnDegrees(Command):
         """Returns true when the Command no longer needs to be run"""
         current = self.robot.drivetrain.get_gyro_angle()
         # If abs(target - current) < threshold then return true
-        return math.fabs(self._target_degrees - current) <= self._degree_threshold or self.isTimedOut()
+        return (
+            math.fabs(self._target_degrees - current) <= self._degree_threshold
+            or self.isTimedOut()
+        )
 
     def end(self):
         """Called once after isFinished returns true"""
@@ -45,6 +60,5 @@ class TurnDegrees(Command):
 
     @staticmethod
     def _determine_direction(degrees_left: float) -> float:
-        """Based on the degrees left, determines the direction of the degrees to turn
-        """
+        """Based on the degrees left, determines the direction of the degrees to turn"""
         return 1.0 if degrees_left >= 0 else -1.0

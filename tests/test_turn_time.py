@@ -9,13 +9,15 @@ from wpilib.simulation import PWMSim
 
 @pytest.fixture(scope="function")
 def drivetrain_default(robot: IterativeRobotBase):
-    return Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_default.ini')
+    return Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_default.ini"
+    )
 
 
 @pytest.fixture(scope="function")
-def command_default(robot: IterativeRobotBase, drivetrain_default:Drivetrain):
+def command_default(robot: IterativeRobotBase, drivetrain_default: Drivetrain):
     robot.drivetrain = drivetrain_default
-    return TurnTime(robot, 5, 1.0, 'TestTurnTime', 15)
+    return TurnTime(robot, 5, 1.0, "TestTurnTime", 15)
 
 
 def test_init_default(command_default: TurnTime):
@@ -49,15 +51,23 @@ def test_initialize(command_default: TurnTime):
     assert command_default._stopwatch._running
 
 
-@pytest.mark.parametrize("speed,left_ex_speed,right_ex_speed", [
-    (0.0, 0.0, 0.0),
-    (0.5, -0.5306122448979592, -0.5306122448979592),
-    (1.0, -1.0, -1.0),
-    (-0.5, 0.5306122448979592, 0.5306122448979592),
-    (-1.0, 1.0, 1.0),
-])
-def test_execute(robot: IterativeRobotBase, drivetrain_default: Drivetrain, speed: float, 
-                left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "speed,left_ex_speed,right_ex_speed",
+    [
+        (0.0, 0.0, 0.0),
+        (0.5, -0.5306122448979592, -0.5306122448979592),
+        (1.0, -1.0, -1.0),
+        (-0.5, 0.5306122448979592, 0.5306122448979592),
+        (-1.0, 1.0, 1.0),
+    ],
+)
+def test_execute(
+    robot: IterativeRobotBase,
+    drivetrain_default: Drivetrain,
+    speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     robot.drivetrain = drivetrain_default
     dt = TurnTime(robot, 5, speed, "CustomTurnTime", 15)
     assert dt is not None
@@ -81,17 +91,27 @@ def test_interrupted(command_default):
 
 
 def isclose(a, b, rel_tol=0.1, abs_tol=0.0):
-    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+    return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
-@pytest.mark.parametrize("duration,timeout, speed,left_ex_speed,right_ex_speed", [
-    (0.5, 5.0, 0.5, -0.5306122448979592, -0.5306122448979592),
-    (0.5, 5.0, -0.5, 0.5306122448979592, 0.5306122448979592),
-    (2.0, 15.0, 1.0, -1.0, -1.0),
-    # (5.0, 1.0, 1.0, 1.0, -1.0), # Timeouts don't seem to work in testing
-])
-def test_command_full(robot: IterativeRobotBase, drivetrain_default: Drivetrain, duration: float, timeout: float, 
-                    speed: float, left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "duration,timeout, speed,left_ex_speed,right_ex_speed",
+    [
+        (0.5, 5.0, 0.5, -0.5306122448979592, -0.5306122448979592),
+        (0.5, 5.0, -0.5, 0.5306122448979592, 0.5306122448979592),
+        (2.0, 15.0, 1.0, -1.0, -1.0),
+        # (5.0, 1.0, 1.0, 1.0, -1.0), # Timeouts don't seem to work in testing
+    ],
+)
+def test_command_full(
+    robot: IterativeRobotBase,
+    drivetrain_default: Drivetrain,
+    duration: float,
+    timeout: float,
+    speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     robot.drivetrain = drivetrain_default
     dt = TurnTime(robot, duration, speed, "CustomTurnTime", timeout)
     sw = Stopwatch()

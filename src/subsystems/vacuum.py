@@ -1,6 +1,6 @@
 import configparser
 
-from wpilib import PWMVictorSPX
+from wpilib import IterativeRobotBase, PWMVictorSPX
 from wpilib import SmartDashboard
 from commands1 import Subsystem
 
@@ -21,7 +21,12 @@ class Vacuum(Subsystem):
     _config = None
     _motor = None
 
-    def __init__(self, robot, name: str = 'Vacuum', configfile='/home/lvuser/py/configs/subsystems.ini'):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        name: str = "Vacuum",
+        configfile: str = "/home/lvuser/py/configs/subsystems.ini",
+    ):
         self._robot = robot
         self._config = configparser.ConfigParser()
         self._config.read(configfile)
@@ -30,10 +35,16 @@ class Vacuum(Subsystem):
         super().__init__(name)
 
     def _init_components(self):
-        self._max_speed = self._config.getfloat(Vacuum.GENERAL_SECTION, Vacuum.MAX_SPEED_KEY)
+        self._max_speed = self._config.getfloat(
+            Vacuum.GENERAL_SECTION, Vacuum.MAX_SPEED_KEY
+        )
         if self._config.getboolean(Vacuum.GENERAL_SECTION, Vacuum.ENABLED_KEY):
-            self._motor = PWMVictorSPX(self._config.getint(Vacuum.GENERAL_SECTION, Vacuum.CHANNEL_KEY))
-            self._motor.setInverted(self._config.getboolean(Vacuum.GENERAL_SECTION, Vacuum.INVERTED_KEY))
+            self._motor = PWMVictorSPX(
+                self._config.getint(Vacuum.GENERAL_SECTION, Vacuum.CHANNEL_KEY)
+            )
+            self._motor.setInverted(
+                self._config.getboolean(Vacuum.GENERAL_SECTION, Vacuum.INVERTED_KEY)
+            )
 
     def initDefaultCommand(self):
         self.setDefaultCommand(DoNothingVacuum(self._robot))

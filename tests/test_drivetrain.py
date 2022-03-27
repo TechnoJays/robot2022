@@ -7,7 +7,9 @@ from wpilib.simulation import PWMSim
 
 @pytest.fixture(scope="function")
 def drivetrain_default(robot: IterativeRobotBase):
-    return Drivetrain(robot, 'TestDriveTrain', '../tests/test_configs/drivetrain_default.ini')
+    return Drivetrain(
+        robot, "TestDriveTrain", "../tests/test_configs/drivetrain_default.ini"
+    )
 
 
 def test_drivetrain_default(drivetrain_default: Drivetrain):
@@ -22,14 +24,16 @@ def test_drivetrain_default(drivetrain_default: Drivetrain):
 
 def test_drivetrain_channels_0_1(robot: IterativeRobotBase):
     # given: a drivetrain
-    dt = Drivetrain(robot, 'TestDriveTrain', '../tests/test_configs/drivetrain_channels_0_1.ini')
-    
+    dt = Drivetrain(
+        robot, "TestDriveTrain", "../tests/test_configs/drivetrain_channels_0_1.ini"
+    )
+
     # then: the drivetrain should be valid, and there should motors
     assert dt is not None
     assert dt._left_motor is not None
     assert dt._right_motor is not None
     assert dt._robot_drive is not None
-    
+
     # and: the robot drive motors are real
     left_m = PWMSim(dt._left_motor.getChannel())
     right_m = PWMSim(dt._right_motor.getChannel())
@@ -47,25 +51,35 @@ def test_drivetrain_channels_0_1(robot: IterativeRobotBase):
     assert right_m.getZeroLatch() is False
 
 
-@pytest.mark.parametrize("left_speed,right_speed,left_ex_speed,right_ex_speed", [
-    (0.0, 0.0, 0.0, 0.0),
-    (0.5, 0.5, 0.0, 0.0),
-    (1.0, 1.0, 0.0, 0.0),
-    (-0.5, -0.5, 0.0, 0.0),
-    (-1.0, -1.0, 0.0, 0.0),
-])
-def test_drivetrain_zero_speed(robot: IterativeRobotBase, left_speed: float, right_speed: float, 
-                                left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "left_speed,right_speed,left_ex_speed,right_ex_speed",
+    [
+        (0.0, 0.0, 0.0, 0.0),
+        (0.5, 0.5, 0.0, 0.0),
+        (1.0, 1.0, 0.0, 0.0),
+        (-0.5, -0.5, 0.0, 0.0),
+        (-1.0, -1.0, 0.0, 0.0),
+    ],
+)
+def test_drivetrain_zero_speed(
+    robot: IterativeRobotBase,
+    left_speed: float,
+    right_speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     # given: a drivetrain
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_zero_speed.ini')
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_zero_speed.ini"
+    )
 
     # then: the drivetrain should be valid, and there should motors
     assert dt is not None
     assert dt._left_motor is not None
     assert dt._right_motor is not None
     assert dt._robot_drive is not None
-    assert dt._max_speed == 0.
-    
+    assert dt._max_speed == 0.0
+
     # and: the robot drive motors are real
     left_m = PWMSim(dt._left_motor.getChannel())
     right_m = PWMSim(dt._right_motor.getChannel())
@@ -78,18 +92,28 @@ def test_drivetrain_zero_speed(robot: IterativeRobotBase, left_speed: float, rig
     pytest.approx(right_ex_speed, right_m.getSpeed())
 
 
-@pytest.mark.parametrize("left_speed,right_speed,left_ex_speed,right_ex_speed", [
-    (0.0, 0.0, 0.0, 0.0),
-    (0.5, 0.5, 0.25, -0.25),
-    (1.0, 1.0, 0.5, -0.5),
-    (-0.5, -0.5, -0.25, 0.25),
-    (-1.0, -1.0, -0.5, 0.5),
-])
-def test_drivetrain_half_speed(robot: IterativeRobotBase, left_speed: float, right_speed: float, 
-                                left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "left_speed,right_speed,left_ex_speed,right_ex_speed",
+    [
+        (0.0, 0.0, 0.0, 0.0),
+        (0.5, 0.5, 0.25, -0.25),
+        (1.0, 1.0, 0.5, -0.5),
+        (-0.5, -0.5, -0.25, 0.25),
+        (-1.0, -1.0, -0.5, 0.5),
+    ],
+)
+def test_drivetrain_half_speed(
+    robot: IterativeRobotBase,
+    left_speed: float,
+    right_speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     # given: a drivetrain
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_half_speed.ini')
-    
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_half_speed.ini"
+    )
+
     # then: the drivetrain should have a left and right motor with a max spped of 0.5
     assert dt is not None
     assert dt._left_motor is not None
@@ -101,7 +125,7 @@ def test_drivetrain_half_speed(robot: IterativeRobotBase, left_speed: float, rig
     left_m = PWMSim(dt._left_motor.getChannel())
     right_m = PWMSim(dt._right_motor.getChannel())
 
-    # and the drivetrain is "tank drived" at the left right 
+    # and the drivetrain is "tank drived" at the left right
     dt.tank_drive(left_speed, right_speed)
 
     # the speed of the left and right motor should be less then it was
@@ -109,17 +133,27 @@ def test_drivetrain_half_speed(robot: IterativeRobotBase, left_speed: float, rig
     assert abs(right_m.getSpeed()) - abs(right_ex_speed) < 0.05
 
 
-@pytest.mark.parametrize("left_speed,right_speed,left_ex_speed,right_ex_speed", [
-    (0.0, 0.0, 0.0, 0.0),
-    (0.5, 0.5, 0.375, -0.375),
-    (1.0, 1.0, 0.75, -0.75),
-    (-0.5, -0.5, -0.375, 0.375),
-    (-1.0, -1.0, -0.75, 0.75),
-])
-def test_drivetrain_3_4_speed(robot: IterativeRobotBase, left_speed: float, right_speed: float, 
-                            left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "left_speed,right_speed,left_ex_speed,right_ex_speed",
+    [
+        (0.0, 0.0, 0.0, 0.0),
+        (0.5, 0.5, 0.375, -0.375),
+        (1.0, 1.0, 0.75, -0.75),
+        (-0.5, -0.5, -0.375, 0.375),
+        (-1.0, -1.0, -0.75, 0.75),
+    ],
+)
+def test_drivetrain_3_4_speed(
+    robot: IterativeRobotBase,
+    left_speed: float,
+    right_speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     # given: a drivetrain
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_3_4_speed.ini')
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_3_4_speed.ini"
+    )
 
     # then: the drivetrain should have a left and right motor and 3/4 max speed
     assert dt is not None
@@ -132,24 +166,35 @@ def test_drivetrain_3_4_speed(robot: IterativeRobotBase, left_speed: float, righ
     left_m = PWMSim(dt._left_motor.getChannel())
     right_m = PWMSim(dt._right_motor.getChannel())
 
-    # and the drivetrain is "tank drived" at the left right 
+    # and the drivetrain is "tank drived" at the left right
     dt.tank_drive(left_speed, right_speed)
 
     # then: the speed of the left and right motor should be less than 0.5
     assert abs(left_m.getSpeed()) - abs(left_ex_speed) < 0.05
-    assert abs(right_m.getSpeed())- abs(right_ex_speed) < 0.05
+    assert abs(right_m.getSpeed()) - abs(right_ex_speed) < 0.05
 
 
-@pytest.mark.parametrize("left_speed,right_speed,left_ex_speed,right_ex_speed", [
-    (0.0, 0.0, 0.0, 0.0),
-    (0.5, 0.5, 0.5306122448979592, -0.5306122448979592),
-    (1.0, 1.0, 1.0, -1.0),
-    (-0.5, -0.5, -0.5306122448979592, 0.5306122448979592),
-    (-1.0, -1.0, -1.0, 1.0),
-])
-def test_drivetrain_full_speed(robot: IterativeRobotBase, left_speed: float, right_speed: float, left_ex_speed: float, right_ex_speed: float):
+@pytest.mark.parametrize(
+    "left_speed,right_speed,left_ex_speed,right_ex_speed",
+    [
+        (0.0, 0.0, 0.0, 0.0),
+        (0.5, 0.5, 0.5306122448979592, -0.5306122448979592),
+        (1.0, 1.0, 1.0, -1.0),
+        (-0.5, -0.5, -0.5306122448979592, 0.5306122448979592),
+        (-1.0, -1.0, -1.0, 1.0),
+    ],
+)
+def test_drivetrain_full_speed(
+    robot: IterativeRobotBase,
+    left_speed: float,
+    right_speed: float,
+    left_ex_speed: float,
+    right_ex_speed: float,
+):
     # given: a drivetrain
-    dt = Drivetrain(robot, 'TestDriveTrain', '../tests/test_configs/drivetrain_full_speed.ini')
+    dt = Drivetrain(
+        robot, "TestDriveTrain", "../tests/test_configs/drivetrain_full_speed.ini"
+    )
 
     # then: the drivetrain should have a left and right motor at full speed
     assert dt is not None
@@ -162,16 +207,18 @@ def test_drivetrain_full_speed(robot: IterativeRobotBase, left_speed: float, rig
     left_m = PWMSim(dt._left_motor.getChannel())
     right_m = PWMSim(dt._right_motor.getChannel())
 
-    # and the drivetrain is "tank drived" at the left right 
+    # and the drivetrain is "tank drived" at the left right
     dt.tank_drive(left_speed, right_speed)
-    
+
     # then the speed of the left and the right motor should be the speed
     pytest.approx(left_ex_speed, left_m.getSpeed())
     pytest.approx(right_ex_speed, right_m.getSpeed())
 
 
 def test_drivetrain_left_inverted(robot: IterativeRobotBase):
-    dt = Drivetrain(robot, 'TestDriveTrain', '../tests/test_configs/drivetrain_left_inverted.ini')
+    dt = Drivetrain(
+        robot, "TestDriveTrain", "../tests/test_configs/drivetrain_left_inverted.ini"
+    )
     assert dt is not None
     assert dt._left_motor is not None
     assert dt._right_motor is not None
@@ -191,7 +238,9 @@ def test_drivetrain_left_inverted(robot: IterativeRobotBase):
 
 
 def test_drivetrain_right_inverted(robot: IterativeRobotBase):
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_right_inverted.ini')
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_right_inverted.ini"
+    )
     assert dt is not None
     assert dt._left_motor is not None
     assert dt._right_motor is not None
@@ -212,7 +261,9 @@ def test_drivetrain_right_inverted(robot: IterativeRobotBase):
 
 
 def test_drivetrain_left_disabled(robot: IterativeRobotBase):
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_left_disabled.ini')
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_left_disabled.ini"
+    )
     assert dt is not None
     assert dt._left_motor is None
     assert dt._right_motor is not None
@@ -220,7 +271,9 @@ def test_drivetrain_left_disabled(robot: IterativeRobotBase):
 
 
 def test_drivetrain_right_disabled(robot: IterativeRobotBase):
-    dt = Drivetrain(robot, 'TestDrivetrain', '../tests/test_configs/drivetrain_right_disabled.ini')
+    dt = Drivetrain(
+        robot, "TestDrivetrain", "../tests/test_configs/drivetrain_right_disabled.ini"
+    )
     assert dt is not None
     assert dt._left_motor is not None
     assert dt._right_motor is None

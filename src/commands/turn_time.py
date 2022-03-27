@@ -1,4 +1,5 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 from util.stopwatch import Stopwatch
 
 
@@ -7,7 +8,14 @@ class TurnTime(Command):
     _duration: float = None
     _speed: float = None
 
-    def __init__(self, robot, duration: float, speed: float, name=None, timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        duration: float,
+        speed: float,
+        name: str = "TurnTime",
+        timeout: int = 15,
+    ):
         """Constructor"""
         super().__init__(name, timeout)
         self.robot = robot
@@ -28,7 +36,10 @@ class TurnTime(Command):
 
     def isFinished(self):
         """Returns true when the Command no longer needs to be run"""
-        return self._stopwatch.elapsed_time_in_secs() >= self._duration or self.isTimedOut()
+        return (
+            self._stopwatch.elapsed_time_in_secs() >= self._duration
+            or self.isTimedOut()
+        )
 
     def end(self):
         """Called once after isFinished returns true"""

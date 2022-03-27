@@ -1,9 +1,11 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 
 
 class RaiseShooter(Command):
-
-    def __init__(self, robot, name='RaiseShooter', timeout=15):
+    def __init__(
+        self, robot: IterativeRobotBase, name: str = "RaiseShooter", timeout: int = 15
+    ):
         super().__init__(name, timeout)
         self.robot = robot
         self.requires(robot.shooter)

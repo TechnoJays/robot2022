@@ -2,7 +2,7 @@ import configparser
 from enum import Enum
 from typing import List
 
-from wpilib import DriverStation
+from wpilib import DriverStation, IterativeRobotBase
 from wpilib import Joystick
 from wpilib import SendableChooser
 from wpilib import SmartDashboard
@@ -16,6 +16,7 @@ from commands.raise_shooter import RaiseShooter
 
 class JoystickAxis:
     """Enumerates joystick axis."""
+
     LEFTX = 0
     LEFTY = 1
     RIGHTX = 4
@@ -26,6 +27,7 @@ class JoystickAxis:
 
 class JoystickButtons:
     """Enumerates joystick buttons."""
+
     X = 1
     A = 2
     B = 3
@@ -40,6 +42,7 @@ class JoystickButtons:
 
 class UserController(Enum):
     """Enumerates the controllers."""
+
     DRIVER = 0
     SCORING = 1
 
@@ -49,6 +52,7 @@ class OI:
     This class is the glue that binds the controls on the physical operator
     interface to the commands and command groups that allow control of the robot.
     """
+
     AXIS_BINDING_SECTION = "AxisBindings"
     BUTTON_BINDING_SECTION = "ButtonBindings"
     JOY_CONFIG_SECTION = "JoyConfig"
@@ -77,7 +81,11 @@ class OI:
     _auto_program_chooser = None
     _starting_chooser = None
 
-    def __init__(self, robot, configfile='/home/lvuser/py/configs/joysticks.ini'):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        configfile: str = "/home/lvuser/py/configs/joysticks.ini",
+    ):
         self.robot = robot
         self._config = configparser.ConfigParser()
         self._config.read(configfile)
@@ -98,31 +106,55 @@ class OI:
     def _init_joystick_binding(self):
         JoystickAxis.LEFTX = self._config.getint(OI.AXIS_BINDING_SECTION, OI.LEFT_X_KEY)
         JoystickAxis.LEFTY = self._config.getint(OI.AXIS_BINDING_SECTION, OI.LEFT_Y_KEY)
-        JoystickAxis.RIGHTX = self._config.getint(OI.AXIS_BINDING_SECTION, OI.RIGHT_X_KEY)
-        JoystickAxis.RIGHTY = self._config.getint(OI.AXIS_BINDING_SECTION, OI.RIGHT_Y_KEY)
+        JoystickAxis.RIGHTX = self._config.getint(
+            OI.AXIS_BINDING_SECTION, OI.RIGHT_X_KEY
+        )
+        JoystickAxis.RIGHTY = self._config.getint(
+            OI.AXIS_BINDING_SECTION, OI.RIGHT_Y_KEY
+        )
         JoystickAxis.DPADX = self._config.getint(OI.AXIS_BINDING_SECTION, OI.DPAD_X_KEY)
         JoystickAxis.DPADY = self._config.getint(OI.AXIS_BINDING_SECTION, OI.DPAD_Y_KEY)
         JoystickButtons.X = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.X_KEY)
         JoystickButtons.A = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.A_KEY)
         JoystickButtons.B = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.B_KEY)
         JoystickButtons.Y = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.Y_KEY)
-        JoystickButtons.LEFTBUMPER = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.LEFT_BUMPER_KEY)
-        JoystickButtons.RIGHTBUMPER = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.RIGHT_BUMPER_KEY)
-        JoystickButtons.LEFTTRIGGER = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.LEFT_TRIGGER_KEY)
-        JoystickButtons.RIGHTTRIGGER = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.RIGHT_TRIGGER_KEY)
-        JoystickButtons.BACK = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.BACK_KEY)
-        JoystickButtons.START = self._config.getint(OI.BUTTON_BINDING_SECTION, OI.START_KEY)
+        JoystickButtons.LEFTBUMPER = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.LEFT_BUMPER_KEY
+        )
+        JoystickButtons.RIGHTBUMPER = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.RIGHT_BUMPER_KEY
+        )
+        JoystickButtons.LEFTTRIGGER = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.LEFT_TRIGGER_KEY
+        )
+        JoystickButtons.RIGHTTRIGGER = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.RIGHT_TRIGGER_KEY
+        )
+        JoystickButtons.BACK = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.BACK_KEY
+        )
+        JoystickButtons.START = self._config.getint(
+            OI.BUTTON_BINDING_SECTION, OI.START_KEY
+        )
 
     def _create_smartdashboard_buttons(self):
         self._auto_program_chooser = SendableChooser()
-        self._auto_program_chooser.setDefaultOption("Move From Line", MoveFromLine(self.robot))
-        self._auto_program_chooser.addOption("Score Low", DeadReckoningScore(self.robot))
+        self._auto_program_chooser.setDefaultOption(
+            "Move From Line", MoveFromLine(self.robot)
+        )
+        self._auto_program_chooser.addOption(
+            "Score Low", DeadReckoningScore(self.robot)
+        )
         SmartDashboard.putData("Autonomous", self._auto_program_chooser)
 
     def setup_button_bindings(self):
-        pop_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER)
+        pop_button = JoystickButton(
+            self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER
+        )
         pop_button.whenPressed(RaiseShooter(self.robot))
-        drop_button = JoystickButton(self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER)
+        drop_button = JoystickButton(
+            self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER
+        )
         drop_button.whenPressed(LowerShooter(self.robot))
         return
 

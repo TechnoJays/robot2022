@@ -1,8 +1,15 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 
 
 class FullWinchRetraction(Command):
-    def __init__(self, robot, name=None, speed: float = 0.0, timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        name: str = None,
+        speed: float = 0.0,
+        timeout: int = 15,
+    ):
         """Constructor"""
         super().__init__(name, timeout)
         self.robot = robot
