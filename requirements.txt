@@ -6,6 +6,6 @@ wpilib
 robotpy
 robotpy[commands]
 # TODO: cleanup from code --> robotpy-rev-color 
-robotpy-cscore
 robotpy-wpimath
 robotpy-wpiutil
+robotpy-cscore
