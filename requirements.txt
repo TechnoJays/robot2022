@@ -8,4 +8,5 @@ robotpy[commands]
 # TODO: cleanup from code --> robotpy-rev-color 
 robotpy-wpimath
 robotpy-wpiutil
+opencv-python
 robotpy-cscore
