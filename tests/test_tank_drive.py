@@ -1,35 +1,19 @@
+from commands1 import Command
 import pytest
+from wpilib import IterativeRobotBase
 import oi
 from commands.tank_drive import TankDrive
 from subsystems.drivetrain import Drivetrain
-
-"""
-hal_data['pwm'] looks like this:
-[{
-    'zero_latch': False,
-    'initialized': False,
-    'raw_value': 0,
-    'value': 0,
-    'period_scale': None,
-    'type': None
-}, {
-    'zero_latch': True,
-    'initialized': True,
-    'raw_value': 1011,
-    'value': 0.0,
-    'period_scale': 0,
-    'type': 'talon'
-},...]
-"""
+from wpilib.simulation import PWMSim
 
 
 @pytest.fixture(scope="function")
-def drivetrain_default(robot):
-    return Drivetrain(robot, None, '../tests/test_configs/drivetrain_default.ini')
+def drivetrain_default(robot: IterativeRobotBase):
+    return Drivetrain(robot, 'TestDriveTrain', '../tests/test_configs/drivetrain_default.ini')
 
 
 @pytest.fixture(scope="function")
-def mock_oi(robot):
+def mock_oi(robot: IterativeRobotBase):
     class OI:
         driver_axis_values = {oi.JoystickAxis.LEFTX: 0.0, oi.JoystickAxis.LEFTY: 0.0,
                               oi.JoystickAxis.RIGHTX: 0.0, oi.JoystickAxis.RIGHTY: 0.0,
@@ -69,34 +53,36 @@ def mock_oi(robot):
 
 
 @pytest.fixture(scope="function")
-def command_default(robot, drivetrain_default):
+def command_default(robot:IterativeRobotBase, drivetrain_default: Drivetrain):
     robot.drivetrain = drivetrain_default
-    return TankDrive(robot, None, 1.0, 1.0, None)
+    return TankDrive(robot, 'TestTankDrive', modifier_scaling=1.0, dpad_scaling=1.0)
 
 
-def test_init_default(command_default):
+def test_init_default(command_default: TankDrive):
     assert command_default is not None
     assert command_default.robot is not None
     assert command_default.robot.drivetrain is not None
-    assert command_default.name == "TankDrive"
-    assert command_default.timeout == -1
+    assert command_default.getName() == "TestTankDrive"
+    # Timeout no longer accessible
+    # assert command_default.timeout == -1
     assert command_default._dpad_scaling == 1.0
     assert command_default._stick_scaling == 1.0
 
 
-def test_init_full(robot, drivetrain_default):
+def test_init_full(robot: IterativeRobotBase, drivetrain_default: Drivetrain):
     robot.drivetrain = drivetrain_default
-    td = TankDrive(robot, "CustomTankDrive", 0.7, 0.3, 5)
+    td = TankDrive(robot, "CustomTankDrive", modifier_scaling=0.7, dpad_scaling=0.3, timeout=5)
     assert td is not None
     assert td.robot is not None
     assert td.robot.drivetrain is not None
-    assert td.name == "CustomTankDrive"
+    assert td.getName() == "CustomTankDrive"
     assert td._stick_scaling == 0.7
     assert td._dpad_scaling == 0.3
-    assert td.timeout == 5
+    # Timeout no longer accessible
+    # assert td.timeout == 5
 
 
-def test_initialize(command_default):
+def test_initialize(command_default: Command):
     pass  # initialize method is empty
 
 
@@ -123,29 +109,37 @@ def test_initialize(command_default):
         (0.5, 0.5, -0.5, -0.5, -1.0, False, -0.2815493544356518, 0.2815493544356518),
         (0.5, 0.5, -1.0, -1.0, -1.0, True, -0.2815493544356518, 0.2815493544356518),
     ])
-def test_execute(mock_oi, drivetrain_default, robot, hal_data, stick_scale, dpad_scale, left_input, right_input,
-                 dpad_input, modifier_input, left_ex_speed, right_ex_speed):
+def test_execute(mock_oi, drivetrain_default: Drivetrain, robot: IterativeRobotBase, 
+                stick_scale: float, dpad_scale: float, left_input: float, right_input: float,
+                dpad_input: float, modifier_input: bool, left_ex_speed: float, right_ex_speed: float):
     robot.drivetrain = drivetrain_default
     robot.oi = mock_oi
-    td = TankDrive(robot, None, stick_scale, dpad_scale, None)
+    td = TankDrive(robot, 'TestTankDrive', modifier_scaling=stick_scale, dpad_scaling=dpad_scale)
     assert td is not None
+
     td.initialize()
+
     mock_oi.set_mock_axis_value(oi.UserController.DRIVER, oi.JoystickAxis.LEFTY, left_input)
     mock_oi.set_mock_axis_value(oi.UserController.DRIVER, oi.JoystickAxis.RIGHTY, right_input)
     mock_oi.set_mock_axis_value(oi.UserController.DRIVER, oi.JoystickAxis.DPADY, dpad_input)
     mock_oi.set_mock_button_value(oi.UserController.DRIVER, oi.JoystickButtons.LEFTTRIGGER, modifier_input)
+    
+    # and: the robot drive motors are real
+    left_m = PWMSim(drivetrain_default._left_motor.getChannel())
+    right_m = PWMSim(drivetrain_default._right_motor.getChannel())
+
     td.execute()
-    assert hal_data['pwm'][1]['value'] == left_ex_speed
-    assert hal_data['pwm'][2]['value'] == right_ex_speed
+    pytest.approx(left_ex_speed, left_m.getSpeed())
+    pytest.approx(right_ex_speed, right_m.getSpeed())
 
 
-def test_is_finished(command_default):
+def test_is_finished(command_default: TankDrive):
     assert command_default.isFinished() is False
 
 
-def test_interrupted(command_default):
+def test_interrupted(command_default: TankDrive):
     pass  # interrupted method is empty
 
 
-def test_end(command_default):
+def test_end(command_default: TankDrive):
     pass  # end method is empty
