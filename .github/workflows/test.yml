@@ -1,0 +1,37 @@
+name: robot_code_test
+on: [push, pull_request]
+jobs:
+  test:
+    name: "test (python robot.py test)"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-18.04]
+        python_version:
+          - '3.6'
+          - '3.7'
+          - '3.8'
+          - '3.9'
+          - '3.10'
+        architecture: [x86, x64]
+        exclude:
+        - os: macos-latest
+          architecture: x86
+        - os: ubuntu-18.04
+          architecture: x86
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ maxtrix.python_version }}
+          architecture: ${{ matrix.architecture }}
+      - name: install test dependencies
+        shell: bash
+        working-directory: .
+        run: python -m pip -r requirements.txt
+      - name: test
+        shell: bash
+        working-directory: src
+        run: python robot.py test
+
