@@ -1,20 +1,22 @@
-import commands1
 import wpilib
 from wpilib import SmartDashboard
 
 from oi import OI
+from commands1 import Command
+from commands1 import Scheduler
 from subsystems.climbing import Climbing
 from subsystems.drivetrain import Drivetrain
 from subsystems.shooter import Shooter
+from subsystems.vacuum import Vacuum
 
 
 class MyRobot(wpilib.TimedRobot):
     oi = None
-    drivetrain = None
-    climbing = None
-    shooter = None
-    vacuum = None
-    autonomous_command = None
+    drivetrain: Drivetrain = None
+    climbing: Climbing = None
+    shooter: Shooter = None
+    vacuum: Vacuum = None
+    autonomous_command: Command = None
 
     def autonomousInit(self):
         # Schedule the autonomous command
@@ -46,13 +48,13 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
-        commands1.Scheduler.getInstance().run()
+        Scheduler.getInstance().run()
         pass
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
         SmartDashboard.putString("Color Target", str(self.oi.get_game_message()))
-        commands1.Scheduler.getInstance().run()
+        Scheduler.getInstance().run()
 
     def testPeriodic(self):
         """This function is called periodically during test mode."""

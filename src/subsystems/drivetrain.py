@@ -117,9 +117,6 @@ class Drivetrain(Subsystem):
         self._modifier_scaling = self._config.getfloat(Drivetrain.GENERAL_SECTION, Drivetrain.MODIFIER_SCALING_KEY)
         self._dpad_scaling = self._config.getfloat(Drivetrain.GENERAL_SECTION, Drivetrain.DPAD_SCALING_KEY)
 
-        if self._config.getboolean(Drivetrain.GYRO_SECTION, Drivetrain.ENABLED_KEY):
-            self._gyro = ADXRS450_Gyro(self._config.getint(Drivetrain.GYRO_SECTION, Drivetrain.CHANNEL_KEY))
-
         if self._config.getboolean(Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.ENABLED_KEY):
             self._left_motor = PWMVictorSPX(self._config.getint(Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.CHANNEL_KEY))
             self._left_motor.setInverted(self._config.getboolean(Drivetrain.LEFT_MOTOR_SECTION,
