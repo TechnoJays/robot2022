@@ -1,4 +1,5 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 from util.stopwatch import Stopwatch
 
 
@@ -7,7 +8,14 @@ class DriveTime(Command):
     _duration: float = None
     _speed: float = None
 
-    def __init__(self, robot, duration: float, speed: float, name='DriveTime', timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        duration: float,
+        speed: float,
+        name: str = "DriveTime",
+        timeout: int = 15,
+    ):
         """Constructor"""
         super().__init__(name, timeout)
         self.robot = robot

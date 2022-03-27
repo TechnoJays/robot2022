@@ -3,7 +3,7 @@ from typing import Optional
 
 from commands1 import Subsystem
 from wpilib.drive import DifferentialDrive
-from wpilib import PWMVictorSPX
+from wpilib import IterativeRobotBase, PWMVictorSPX
 from wpilib import ADXRS450_Gyro
 from wpilib import SmartDashboard
 from commands.tank_drive import TankDrive
@@ -44,7 +44,12 @@ class Drivetrain(Subsystem):
     _gyro: Optional[ADXRS450_Gyro] = None
     _gyro_angle: float = 0.0
 
-    def __init__(self, robot, name: str = 'Drivetrain', configfile='/home/lvuser/py/configs/subsystems.ini'):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        name: str = "Drivetrain",
+        configfile="/home/lvuser/py/configs/subsystems.ini",
+    ):
         self._robot = robot
         self._config = configparser.ConfigParser()
         self._config.read(configfile)
@@ -55,8 +60,14 @@ class Drivetrain(Subsystem):
         super().__init__(name)
 
     def initDefaultCommand(self):
-        self.setDefaultCommand(TankDrive(self._robot, 'TankDrive', modifier_scaling=self._modifier_scaling,
-                                         dpad_scaling=self._dpad_scaling))
+        self.setDefaultCommand(
+            TankDrive(
+                self._robot,
+                "TankDrive",
+                modifier_scaling=self._modifier_scaling,
+                dpad_scaling=self._dpad_scaling,
+            )
+        )
 
     def get_gyro_angle(self) -> float:
         if self._gyro:
@@ -84,11 +95,17 @@ class Drivetrain(Subsystem):
         self.get_gyro_angle()
         self._update_smartdashboard_sensors(self._gyro_angle)
 
-    def arcade_drive(self, linear_distance: float, turn_angle: float, squared_inputs: bool = True):
+    def arcade_drive(
+        self, linear_distance: float, turn_angle: float, squared_inputs: bool = True
+    ):
         determined_turn_angle = self._modify_turn_angle(turn_angle)
         if self._robot_drive:
-            self._robot_drive.arcadeDrive(linear_distance, determined_turn_angle, squared_inputs)
-        Drivetrain._update_smartdashboard_arcade_drive(linear_distance, determined_turn_angle)
+            self._robot_drive.arcadeDrive(
+                linear_distance, determined_turn_angle, squared_inputs
+            )
+        Drivetrain._update_smartdashboard_arcade_drive(
+            linear_distance, determined_turn_angle
+        )
         self.get_gyro_angle()
         self._update_smartdashboard_sensors(self._gyro_angle)
 
@@ -113,20 +130,43 @@ class Drivetrain(Subsystem):
         SmartDashboard.putNumber("Gyro Angle", gyro_angle)
 
     def _init_components(self):
-        self._max_speed = self._config.getfloat(Drivetrain.GENERAL_SECTION, Drivetrain.MAX_SPEED_KEY)
-        self._modifier_scaling = self._config.getfloat(Drivetrain.GENERAL_SECTION, Drivetrain.MODIFIER_SCALING_KEY)
-        self._dpad_scaling = self._config.getfloat(Drivetrain.GENERAL_SECTION, Drivetrain.DPAD_SCALING_KEY)
+        self._max_speed = self._config.getfloat(
+            Drivetrain.GENERAL_SECTION, Drivetrain.MAX_SPEED_KEY
+        )
+        self._modifier_scaling = self._config.getfloat(
+            Drivetrain.GENERAL_SECTION, Drivetrain.MODIFIER_SCALING_KEY
+        )
+        self._dpad_scaling = self._config.getfloat(
+            Drivetrain.GENERAL_SECTION, Drivetrain.DPAD_SCALING_KEY
+        )
 
-        if self._config.getboolean(Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.ENABLED_KEY):
-            self._left_motor = PWMVictorSPX(self._config.getint(Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.CHANNEL_KEY))
-            self._left_motor.setInverted(self._config.getboolean(Drivetrain.LEFT_MOTOR_SECTION,
-                                                                 Drivetrain.INVERTED_KEY))
+        if self._config.getboolean(
+            Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.ENABLED_KEY
+        ):
+            self._left_motor = PWMVictorSPX(
+                self._config.getint(
+                    Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.CHANNEL_KEY
+                )
+            )
+            self._left_motor.setInverted(
+                self._config.getboolean(
+                    Drivetrain.LEFT_MOTOR_SECTION, Drivetrain.INVERTED_KEY
+                )
+            )
 
-        if self._config.getboolean(Drivetrain.RIGHT_MOTOR_SECTION, Drivetrain.ENABLED_KEY):
-            self._right_motor = PWMVictorSPX(self._config.getint(Drivetrain.RIGHT_MOTOR_SECTION,
-                                                                 Drivetrain.CHANNEL_KEY))
-            self._right_motor.setInverted(self._config.getboolean(Drivetrain.RIGHT_MOTOR_SECTION,
-                                                                  Drivetrain.INVERTED_KEY))
+        if self._config.getboolean(
+            Drivetrain.RIGHT_MOTOR_SECTION, Drivetrain.ENABLED_KEY
+        ):
+            self._right_motor = PWMVictorSPX(
+                self._config.getint(
+                    Drivetrain.RIGHT_MOTOR_SECTION, Drivetrain.CHANNEL_KEY
+                )
+            )
+            self._right_motor.setInverted(
+                self._config.getboolean(
+                    Drivetrain.RIGHT_MOTOR_SECTION, Drivetrain.INVERTED_KEY
+                )
+            )
 
         if self._left_motor and self._right_motor:
             self._robot_drive = DifferentialDrive(self._left_motor, self._right_motor)

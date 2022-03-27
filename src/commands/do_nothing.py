@@ -1,9 +1,11 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 
 
 class DoNothing(Command):
-
-    def __init__(self, robot, name: str = 'DoNothing', timeout: float = 15.0):
+    def __init__(
+        self, robot: IterativeRobotBase, name: str = "DoNothing", timeout: int = 15
+    ):
         """Constructor"""
         super().__init__(name, timeout)
 

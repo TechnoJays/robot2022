@@ -2,6 +2,7 @@ from configparser import ConfigParser
 
 from commands1 import CommandGroup
 from commands1 import WaitCommand
+from wpilib import IterativeRobotBase
 
 from commands.drive_time import DriveTime
 from commands.raise_shooter import RaiseShooter
@@ -21,7 +22,11 @@ class MoveFromLine(CommandGroup):
     _drive_speed: float = None
     _drive_time: float = None
 
-    def __init__(self, robot, config_path: str = "/home/lvuser/py/configs/autonomous.ini"):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        config_path: str = "/home/lvuser/py/configs/autonomous.ini",
+    ):
         """Constructor"""
         super().__init__()
         self._robot = robot
@@ -49,7 +54,9 @@ class DriveToWall(CommandGroup):
     _drive_speed: float = None
     _drive_time: float = None
 
-    def __init__(self, robot, config_path: str = "/home/lvuser/py/configs/autonomous.ini"):
+    def __init__(
+        self, robot, config_path: str = "/home/lvuser/py/configs/autonomous.ini"
+    ):
         """Constructor"""
         super().__init__()
         self._robot = robot
@@ -79,7 +86,9 @@ class DeadReckoningScore(CommandGroup):
     _drive_time: float = None
     _wait_time: float = None
 
-    def __init__(self, robot, config_path: str = "/home/lvuser/py/configs/autonomous.ini"):
+    def __init__(
+        self, robot, config_path: str = "/home/lvuser/py/configs/autonomous.ini"
+    ):
         """Constructor"""
         super().__init__()
         self._robot = robot

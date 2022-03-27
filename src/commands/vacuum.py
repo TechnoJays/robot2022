@@ -1,10 +1,17 @@
 from commands1 import Command
+from wpilib import IterativeRobotBase
 
 
 class Vacuum(Command):
     _speed: float = None
 
-    def __init__(self, robot, speed: float, name='Vacuum', timeout=15):
+    def __init__(
+        self,
+        robot: IterativeRobotBase,
+        speed: float,
+        name: str = "Vacuum",
+        timeout: int = 15,
+    ):
         super().__init__(name, timeout)
         self.robot = robot
         self._speed = speed
