@@ -1,0 +1,13 @@
+name: robot_code_validate
+on:
+  push:
+    branches:
+      - "main"
+    pull_request: {}
+jobs:
+  lint: 
+    name: "lint (black)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: psf/black@stable
