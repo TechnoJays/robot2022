@@ -1,6 +1,6 @@
 import configparser
 
-from wpilib import IterativeRobotBase, PWMVictorSPX
+from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX
 from wpilib import SmartDashboard
 from commands1 import Subsystem
 
@@ -15,11 +15,11 @@ class Vacuum(Subsystem):
     CHANNEL_KEY = "CHANNEL"
     MAX_SPEED_KEY = "MAX_SPEED"
 
-    _max_speed = 0
+    _max_speed: float = 0.0
 
-    _robot = None
+    _robot: IterativeRobotBase = None
     _config = None
-    _motor = None
+    _motor: PWMMotorController = None
 
     def __init__(
         self,

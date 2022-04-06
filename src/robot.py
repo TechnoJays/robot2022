@@ -1,9 +1,9 @@
 import wpilib
 from wpilib import SmartDashboard
 
-from oi import OI
 from commands1 import Command
 from commands1 import Scheduler
+from oi import OI
 from subsystems.climbing import Climbing
 from subsystems.drivetrain import Drivetrain
 from subsystems.shooter import Shooter
@@ -11,7 +11,7 @@ from subsystems.vacuum import Vacuum
 
 
 class MyRobot(wpilib.TimedRobot):
-    oi = None
+    oi: OI = None
     drivetrain: Drivetrain = None
     climbing: Climbing = None
     shooter: Shooter = None
@@ -20,7 +20,7 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousInit(self):
         # Schedule the autonomous command
-        self.drivetrain.reset_gyro_angle()
+        # self.drivetrain.reset_gyro_angle()
         self.autonomous_command = self.oi.get_auto_choice()
         self.autonomous_command.start()
 
@@ -43,6 +43,7 @@ class MyRobot(wpilib.TimedRobot):
         self.drivetrain = Drivetrain(self)
         self.climbing = Climbing(self)
         self.shooter = Shooter(self)
+        self.vacuum = Vacuum(self)
         self.oi.setup_button_bindings()
         wpilib.CameraServer.launch()
 
