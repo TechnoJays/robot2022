@@ -3,9 +3,7 @@ from typing import Optional
 
 from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX, SmartDashboard
 from commands1 import Subsystem
-
-from commands.shooter_drive import ShooterDrive
-
+from commands.do_nothing_shooter import DoNothingShooter
 
 class Shooter(Subsystem):
     # Config file section name
@@ -56,7 +54,7 @@ class Shooter(Subsystem):
 
     def initDefaultCommand(self):
         # TODO Shooter needs independent DoNothin
-        self.setDefaultCommand(ShooterDrive(self._robot))
+        self.setDefaultCommand(DoNothingShooter(self._robot))
 
     
     def move(self, speed: float):
