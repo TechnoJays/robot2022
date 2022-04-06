@@ -12,6 +12,8 @@ from commands1.buttons import JoystickButton
 from commands.autonomous import DeadReckoningScore, MoveFromLine
 from commands.lower_shooter import LowerShooter
 from commands.raise_shooter import RaiseShooter
+from commands.shoot import Shoot
+from commands.vacuum import Vacuum
 
 
 class JoystickAxis:
@@ -148,18 +150,39 @@ class OI:
         SmartDashboard.putData("Autonomous", self._auto_program_chooser)
 
     def setup_button_bindings(self):
-        pop_button = JoystickButton(
+        # Vaccuum Buttons Setup
+        # Keep your mind here and not over there
+        suck_button = JoystickButton(
             self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER
         )
-        pop_button.whenPressed(RaiseShooter(self.robot))
-        drop_button = JoystickButton(
+        suck_button.whileHeld(Vacuum(self.robot, 1.0))
+        
+        blow_button = JoystickButton(
             self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER
         )
-        drop_button.whenPressed(LowerShooter(self.robot))
+        blow_button.whileHeld(Vacuum(self.robot, -1.0))
+
+        # Shooter Buttons Setup
+        shoot_button = JoystickButton(
+            self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTTRIGGER
+        )
+        shoot_button.whileHeld(Shoot(self.robot, 1.0))
+
+        # Considered disabling this to prevent breaking the robot, YOLO
+        unshoot_button = JoystickButton(
+            self._controllers[UserController.SCORING.value], JoystickButtons.LEFTTRIGGER
+        )
+        unshoot_button.whileHeld(Shoot(self.robot, -1.0))
+
         return
 
     def get_auto_choice(self) -> CommandGroup:
-        return self._auto_program_chooser.getSelected()
+        """
+        Removed SmartDashboard based choice for autonomous. Hard coded
+        move from line given no gyro
+        """
+        # return self._auto_program_chooser.getSelected()
+        return MoveFromLine(self.robot)
 
     def get_position(self) -> int:
         return self._starting_chooser.getSelected()

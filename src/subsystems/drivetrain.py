@@ -2,8 +2,8 @@ import configparser
 from typing import Optional
 
 from commands1 import Subsystem
-from wpilib.drive import DifferentialDrive
-from wpilib import IterativeRobotBase, PWMVictorSPX
+from wpilib.drive import DifferentialDrive, RobotDriveBase
+from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX
 from wpilib import ADXRS450_Gyro
 from wpilib import SmartDashboard
 from commands.tank_drive import TankDrive
@@ -31,12 +31,12 @@ class Drivetrain(Subsystem):
     # Default arcade drive rotation modifier to -1 for DifferentialDrive
     _arcade_rotation_modifier: float = -1
 
-    _robot = None
+    _robot: IterativeRobotBase = None
     _config: configparser.ConfigParser = None
 
-    _left_motor = None
-    _right_motor = None
-    _robot_drive = None
+    _left_motor: PWMMotorController = None
+    _right_motor: PWMMotorController = None
+    _robot_drive: RobotDriveBase = None
 
     _modifier_scaling: Optional[float] = None
     _dpad_scaling: Optional[float] = None
