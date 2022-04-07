@@ -4,12 +4,14 @@ from typing import Optional
 from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX, SmartDashboard
 from commands1 import Subsystem
 from commands.do_nothing_shooter import DoNothingShooter
+from commands.shooter_drive import ShooterDrive
 
 class Shooter(Subsystem):
     # Config file section name
     GENERAL_SECTION = "ShooterGeneral"
 
     # Config keys
+    CHANNEL_KEY = "CHANNEL"
     ENABLED_KEY = "ENABLED"
     INVERTED_KEY = "INVERTED"
     MAX_SPEED_KEY = "MAX_SPEED"
@@ -36,6 +38,7 @@ class Shooter(Subsystem):
             Shooter.GENERAL_SECTION, Shooter.ENABLED_KEY
         )
         self._init_components()
+        print("Shooter initialized")
         Shooter._update_smartdashboard(0.0)
         super().__init__(name)
 
@@ -44,6 +47,7 @@ class Shooter(Subsystem):
             Shooter.GENERAL_SECTION, Shooter.MAX_SPEED_KEY
         )
         if self._enabled:
+            print("Shooter enabled")
             self._motor = PWMVictorSPX(
                 self._config.getint(Shooter.GENERAL_SECTION, Shooter.CHANNEL_KEY)
             )
@@ -54,7 +58,7 @@ class Shooter(Subsystem):
 
     def initDefaultCommand(self):
         # TODO Shooter needs independent DoNothin
-        self.setDefaultCommand(DoNothingShooter(self._robot))
+        self.setDefaultCommand(ShooterDrive(self._robot))
 
     
     def move(self, speed: float):
@@ -65,5 +69,5 @@ class Shooter(Subsystem):
         Shooter._update_smartdashboard(adjusted_speed)
 
     @staticmethod
-    def update_smartdashboard(speed: float = 0.0):
+    def _update_smartdashboard(speed: float = 0.0):
         SmartDashboard.putNumber("Shooter Speed", speed)
