@@ -4,6 +4,7 @@ from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX
 from wpilib import SmartDashboard
 from commands1 import Subsystem
 
+from commands.do_nothing_vacuum import DoNothingVacuum
 from commands.shooter_drive import ShooterDrive
 
 
@@ -47,7 +48,7 @@ class Vacuum(Subsystem):
             )
 
     def initDefaultCommand(self):
-        self.setDefaultCommand(ShooterDrive(self._robot))
+        self.setDefaultCommand(DoNothingVacuum(self._robot))
 
     def move(self, speed: float):
         adjusted_speed = 0.0

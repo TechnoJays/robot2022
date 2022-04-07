@@ -1,8 +1,7 @@
 from commands1 import Command
-from hal import JoystickButtons
 from wpilib import IterativeRobotBase
 
-from oi import JoystickAxis, UserController
+from oi import JoystickAxis, JoystickButtons, UserController
 
 
 class ShooterDrive(Command):
@@ -13,7 +12,7 @@ class ShooterDrive(Command):
         self,
         robot: IterativeRobotBase,
         name: str = "ShooterDrive",
-        modifier_scaling: float = 0.5,
+        modifier_scaling: float = 1.0,
         dpad_scaling: float = 0.4,
         timeout: int = 15,
     ):
@@ -29,19 +28,10 @@ class ShooterDrive(Command):
 
     def execute(self):
         """Called repeatedly when this Command is scheduled to run"""
-        shooting: bool = self.robot.oi.get_button_state(
-            UserController.SCORING, JoystickButtons.RIGHTTRIGGER
+        shooter: float = self.robot.oi.get_axis(
+            UserController.SCORING, JoystickAxis.RIGHTY
         )
-        unshooting: bool = self.robot.oi.get_button_state(
-            UserController.SCORING, JoystickButtons.LEFTTRIGGER
-        )
-        isDrivable: bool = not(shooting or unshooting)
-
-        if isDrivable:
-            shooter: float = self.robot.oi.get_axis(
-                UserController.SCORING, JoystickAxis.RIGHTY
-            )
-            self.robot.shooter.move(shooter * self._stick_scaling)
+        self.robot.shooter.move(shooter)
 
         return Command.execute(self)
 
