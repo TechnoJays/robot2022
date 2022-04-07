@@ -169,5 +169,5 @@ class Drivetrain(Subsystem):
             )
 
         if self._left_motor and self._right_motor:
-            self._robot_drive = DifferentialDrive(self._left_motor, self._right_motor)           
+            self._robot_drive = DifferentialDrive(self._left_motor, self._right_motor)
             self._robot_drive.setSafetyEnabled(False)
