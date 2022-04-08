@@ -4,20 +4,23 @@ from wpilib import IterativeRobotBase, PWMMotorController, PWMVictorSPX
 from wpilib import SmartDashboard
 from commands1 import Subsystem
 from commands.do_nothing_vacuum import DoNothingVacuum
+from commands.vacuum_drive import VacuumDrive
 
 class Vacuum(Subsystem):
     # Config file section names
     GENERAL_SECTION = "VacuumGeneral"
+    
+    # Config keys
+    CHANNEL_KEY = "CHANNEL"
     ENABLED_KEY = "ENABLED"
     INVERTED_KEY = "INVERTED"
-    CHANNEL_KEY = "CHANNEL"
     MAX_SPEED_KEY = "MAX_SPEED"
 
-    _max_speed: float = 0.0
-
     _robot: IterativeRobotBase = None
+
     _config = None
     _motor: PWMMotorController = None
+    _max_speed: float = 0.0
 
     def __init__(
         self,
@@ -45,7 +48,8 @@ class Vacuum(Subsystem):
             )
 
     def initDefaultCommand(self):
-        self.setDefaultCommand(DoNothingVacuum(self._robot))
+        # self.setDefaultCommand(DoNothingVacuum(self._robot)) #previous
+        self.setDefaultCommand(VacuumDrive(self._robot))
 
     def move(self, speed: float):
         adjusted_speed = 0.0

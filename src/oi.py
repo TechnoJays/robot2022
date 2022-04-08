@@ -155,12 +155,12 @@ class OI:
         suck_button = JoystickButton(
             self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER
         )
-        suck_button.whileHeld(Vacuum(self.robot, 1.0))
+        suck_button.whileHeld(Vacuum(self.robot, -1.0))
         
         blow_button = JoystickButton(
             self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER
         )
-        blow_button.whileHeld(Vacuum(self.robot, -1.0))
+        blow_button.whileHeld(Vacuum(self.robot, 1.0))
 
         # Shooter Buttons Setup
         shoot_button = JoystickButton(
