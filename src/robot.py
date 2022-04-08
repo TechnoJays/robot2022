@@ -46,7 +46,8 @@ class MyRobot(wpilib.TimedRobot):
         self.shooter = Shooter(self)
         self.vacuum = Vacuum(self)
         self.oi.setup_button_bindings()
-        wpilib.CameraServer.launch()
+        wpilib.CameraServer.launch("vision.py:main")
+
 
     def autonomousPeriodic(self):
         """This function is called periodically during autonomous."""
