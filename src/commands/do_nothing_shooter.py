@@ -19,7 +19,7 @@ class DoNothingShooter(Command):
 
     def execute(self):
         """Called repeatedly when this Command is scheduled to run"""
-        self.robot.vacuum.move(0.0)
+        self.robot.shooter.move(0.0)
         return Command.execute(self)
 
     def isFinished(self):
