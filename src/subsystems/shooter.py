@@ -58,7 +58,8 @@ class Shooter(Subsystem):
 
     def initDefaultCommand(self):
         # TODO Shooter needs independent DoNothin
-        self.setDefaultCommand(ShooterDrive(self._robot))
+        #self.setDefaultCommand(ShooterDrive(self._robot)) #previous
+        self.setDefaultCommand(DoNothingShooter(self._robot))
 
     
     def move(self, speed: float):
