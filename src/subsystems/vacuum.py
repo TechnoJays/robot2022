@@ -6,10 +6,11 @@ from commands1 import Subsystem
 from commands.do_nothing_vacuum import DoNothingVacuum
 from commands.vacuum_drive import VacuumDrive
 
+
 class Vacuum(Subsystem):
     # Config file section names
     GENERAL_SECTION = "VacuumGeneral"
-    
+
     # Config keys
     CHANNEL_KEY = "CHANNEL"
     ENABLED_KEY = "ENABLED"

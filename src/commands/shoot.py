@@ -1,6 +1,7 @@
 from commands1 import Command
 from wpilib import IterativeRobotBase
 
+
 class Shoot(Command):
     _speed: float = None
 

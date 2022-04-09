@@ -156,7 +156,7 @@ class OI:
             self._controllers[UserController.SCORING.value], JoystickButtons.RIGHTBUMPER
         )
         suck_button.whileHeld(Vacuum(self.robot, 1.0))
-        
+
         blow_button = JoystickButton(
             self._controllers[UserController.SCORING.value], JoystickButtons.LEFTBUMPER
         )
@@ -164,7 +164,8 @@ class OI:
 
         # Shooter Buttons Setup
         shoot_button = JoystickButton(
-            self._controllers[UserController.SCORING.value], JoystickButtons.A #actually X key
+            self._controllers[UserController.SCORING.value],
+            JoystickButtons.A,  # actually X key
         )
         shoot_button.whileHeld(Shoot(self.robot, 1.0))
 

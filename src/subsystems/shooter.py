@@ -6,6 +6,7 @@ from commands1 import Subsystem
 from commands.do_nothing_shooter import DoNothingShooter
 from commands.shooter_drive import ShooterDrive
 
+
 class Shooter(Subsystem):
     # Config file section name
     GENERAL_SECTION = "ShooterGeneral"
@@ -26,10 +27,10 @@ class Shooter(Subsystem):
     _modifier_scaling: Optional[float] = None
 
     def __init__(
-        self, 
-        robot: IterativeRobotBase, 
-        name: str ="Shooter", 
-        configfile: str ="/home/lvuser/py/configs/subsystems.ini"
+        self,
+        robot: IterativeRobotBase,
+        name: str = "Shooter",
+        configfile: str = "/home/lvuser/py/configs/subsystems.ini",
     ):
         self._robot = robot
         self._config = configparser.ConfigParser()
@@ -55,13 +56,9 @@ class Shooter(Subsystem):
                 self._config.getboolean(Shooter.GENERAL_SECTION, Shooter.INVERTED_KEY)
             )
 
-
     def initDefaultCommand(self):
-        # TODO Shooter needs independent DoNothin
-        #self.setDefaultCommand(ShooterDrive(self._robot)) #previous
         self.setDefaultCommand(DoNothingShooter(self._robot))
 
-    
     def move(self, speed: float):
         adjusted_speed = 0.0
         if self._motor:

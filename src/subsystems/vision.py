@@ -1,5 +1,6 @@
 from cscore import CameraServer
 
+
 def main():
     cs1 = CameraServer.getInstance()
     cs1.enableLogging()

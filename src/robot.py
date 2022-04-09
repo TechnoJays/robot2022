@@ -11,7 +11,7 @@ from subsystems.vacuum import Vacuum
 
 
 class MyRobot(wpilib.TimedRobot):
-    
+
     oi: OI = None
     drivetrain: Drivetrain = None
     climbing: Climbing = None
@@ -21,7 +21,6 @@ class MyRobot(wpilib.TimedRobot):
 
     def autonomousInit(self):
         # Schedule the autonomous command
-        # self.drivetrain.reset_gyro_angle()
         self.autonomous_command = self.oi.get_auto_choice()
         self.autonomous_command.start()
 
@@ -50,17 +49,27 @@ class MyRobot(wpilib.TimedRobot):
         wpilib.CameraServer.launch()
 
     def autonomousPeriodic(self):
-        """This function is called periodically during autonomous."""
+        """
+        This function is called periodically during autonomous.
+        The scheduler is what runs the periodioc processes for managing
+        commands during autonomous
+        """
         Scheduler.getInstance().run()
         pass
 
     def teleopPeriodic(self):
-        """This function is called periodically during operator control."""
+        """
+        This function is called periodically during operator control.
+        The scheduler is what runs the periodic processes for managing
+        commands during autonomous
+        """
         SmartDashboard.putString("Color Target", str(self.oi.get_game_message()))
         Scheduler.getInstance().run()
 
     def testPeriodic(self):
-        """This function is called periodically during test mode."""
+        """
+        This function is called periodically during test mode.
+        """
         pass
 
 
