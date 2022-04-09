@@ -150,9 +150,9 @@ class ShootScore(CommandGroup):
         self._vacuum_time = parser.getfloat(self._SECTION, self._VACUUM_TIME_KEY)
 
     def _initialize_commands(self):
-        command = Shoot(self._robot, 1.0, "AutoShoot", 7)
+        command = Shoot(self._robot, 1.0, "AutoShoot", self._shoot_time)
         self.addSequential(command)
         command = WaitCommand(self._wait_time)
         self.addSequential(command)
-        command = Vacuum(self._robot, -1.0, "AutoVacuum", 3)
+        command = Vacuum(self._robot, -1.0, "AutoVacuum", self._vacuum_time)
         self.addSequential(command)
