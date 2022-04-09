@@ -118,12 +118,16 @@ class ShootScore(CommandGroup):
     _DRIVE_SPEED = "DRIVE_SPEED"
     _DRIVE_TIME = "DRIVE_TIME"
     _WAIT_TIME = "WAIT_TIME"
+    _SHOOT_TIME_KEY = "SHOOT_TIME"
+    _VACUUM_TIME_KEY = "VACUUM_TIME"
 
     _robot = None
 
     _drive_speed: float = None
     _drive_time: float = None
     _wait_time: float = None
+    _shoot_time: float = None
+    _vacuum_time: float = None
 
     def __init__(
         self, 
@@ -142,6 +146,8 @@ class ShootScore(CommandGroup):
         self._drive_speed = parser.getfloat(self._SECTION, self._DRIVE_SPEED)
         self._drive_time = parser.getfloat(self._SECTION, self._DRIVE_TIME)
         self._wait_time = parser.getfloat(self._SECTION, self._WAIT_TIME)
+        self._shoot_time = parser.getfloat(self._SECTION, self._SHOOT_TIME_KEY)
+        self._vacuum_time = parser.getfloat(self._SECTION, self._VACUUM_TIME_KEY)
 
     def _initialize_commands(self):
         command = Shoot(self._robot, 1.0, "AutoShoot", 7)
