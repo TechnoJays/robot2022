@@ -9,7 +9,7 @@ from wpilib import SmartDashboard
 from commands1 import CommandGroup
 from commands1.buttons import JoystickButton
 
-from commands.autonomous import DeadReckoningScore, MoveFromLine
+from commands.autonomous import DeadReckoningScore, MoveFromLine, ShootScore
 from commands.lower_shooter import LowerShooter
 from commands.raise_shooter import RaiseShooter
 from commands.shoot import Shoot
@@ -183,7 +183,8 @@ class OI:
         move from line given no gyro
         """
         # return self._auto_program_chooser.getSelected()
-        return MoveFromLine(self.robot)
+        # return MoveFromLine(self.robot)
+        return ShootScore(self.robot)
 
     def get_position(self) -> int:
         return self._starting_chooser.getSelected()
